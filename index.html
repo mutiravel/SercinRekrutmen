@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Layanan Jasa Rekrutmen — Solutiva Consulting Indonesia</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #F5F4F0;
+    color: #1a1a18;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    background: #1B3A5C;
+    border-radius: 12px 12px 0 0;
+    padding: 2rem 2.5rem 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .header-logo {
+    width: 56px;
+    height: 56px;
+    background: #E8F3FF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .header-logo svg { width: 32px; height: 32px; }
+
+  .header-text h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .header-text p {
+    font-size: 0.875rem;
+    color: #A8C4E0;
+    margin-top: 0.4rem;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    background: #152E4A;
+    padding: 1rem 2.5rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .step-pill {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+
+  .step-pill.active { background: #4DA3E8; }
+  .step-pill.done { background: #5CC896; }
+
+  .step-label {
+    font-size: 0.75rem;
+    color: #A8C4E0;
+    white-space: nowrap;
+    margin-left: 0.75rem;
+  }
+
+  /* Form body */
+  .form-body {
+    background: #ffffff;
+    padding: 0;
+    border-radius: 0 0 12px 12px;
+    border: 1px solid #E0DDD4;
+    border-top: none;
+  }
+
+  .section {
+    padding: 1.75rem 2.5rem;
+    border-bottom: 1px solid #F0EDE6;
+  }
+
+  .section:last-of-type { border-bottom: none; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-num {
+    width: 28px;
+    height: 28px;
+    background: #1B3A5C;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1B3A5C;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+  }
+
+  /* Field grid */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem 1.5rem;
+  }
+
+  .field-full { grid-column: 1 / -1; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #444441;
+    letter-spacing: 0.01em;
+  }
+
+  label .req {
+    color: #D85A30;
+    margin-left: 2px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="url"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    border: 1px solid #D3D1C7;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    color: #1a1a18;
+    background: #FAFAF8;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #4DA3E8;
+    box-shadow: 0 0 0 3px rgba(77, 163, 232, 0.12);
+    background: #fff;
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  select { cursor: pointer; }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .radio-group input[type="radio"] { display: none; }
+
+  .radio-group label {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid #D3D1C7;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #5F5E5A;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #FAFAF8;
+  }
+
+  .radio-group input[type="radio"]:checked + label {
+    background: #1B3A5C;
+    border-color: #1B3A5C;
+    color: white;
+  }
+
+  /* Checkbox group */
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .checkbox-group input[type="checkbox"] { display: none; }
+
+  .checkbox-group label {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid #D3D1C7;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #5F5E5A;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #FAFAF8;
+  }
+
+  .checkbox-group input[type="checkbox"]:checked + label {
+    background: #E8F3FF;
+    border-color: #4DA3E8;
+    color: #185FA5;
+  }
+
+  /* Salary field */
+  .salary-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .salary-prefix {
+    position: absolute;
+    left: 0.85rem;
+    font-size: 0.85rem;
+    color: #888780;
+    font-weight: 600;
+    pointer-events: none;
+  }
+
+  .salary-wrap input {
+    padding-left: 2.8rem;
+  }
+
+  .salary-suffix {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+
+  /* Terms box */
+  .terms-box {
+    background: #F5F4F0;
+    border: 1px solid #E0DDD4;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 0.8rem;
+    color: #5F5E5A;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .terms-box strong { color: #1a1a18; }
+
+  .agree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .agree-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: #1B3A5C;
+    flex-shrink: 0;
+  }
+
+  .agree-row label {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: #444441;
+    cursor: pointer;
+    line-height: 1.5;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: #1B3A5C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .submit-btn:hover { background: #152E4A; }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { background: #B4B2A9; cursor: not-allowed; }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #888780;
+    margin-top: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-note a { color: #4DA3E8; text-decoration: none; }
+
+  /* Success screen */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 3rem 2.5rem;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    background: #EAF3DE;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+
+  .success-screen h2 {
+    font-size: 1.4rem;
+    color: #1B3A5C;
+    margin-bottom: 0.5rem;
+  }
+
+  .success-screen p {
+    font-size: 0.9rem;
+    color: #5F5E5A;
+    line-height: 1.6;
+  }
+
+  /* Loading state */
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,0.8);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #E0DDD4;
+    border-top-color: #1B3A5C;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* SPK Accordion */
+  .spk-toggle {
+    width: 100%;
+    text-align: left;
+    background: #FFF8E8;
+    border: 1px solid #FAC775;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #633806;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .spk-toggle:hover { background: #FAEEDA; }
+  .spk-toggle.open { border-radius: 8px 8px 0 0; border-bottom-color: transparent; }
+
+  .spk-body {
+    display: none;
+    border: 1px solid #FAC775;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 1.25rem 1.5rem;
+    background: #FFFDF7;
+    max-height: 420px;
+    overflow-y: auto;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #2C2C2A;
+  }
+
+  .spk-body.open { display: block; }
+
+  .spk-section { margin-bottom: 1.25rem; }
+
+  .spk-title {
+    font-weight: 700;
+    font-size: 0.83rem;
+    color: #1B3A5C;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #E0DDD4;
+  }
+
+  .spk-list {
+    padding-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .spk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .spk-table th, .spk-table td {
+    border: 1px solid #D3D1C7;
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+  }
+
+  .spk-table th {
+    background: #1B3A5C;
+    color: white;
+    font-weight: 600;
+  }
+
+  .spk-table td:first-child {
+    font-weight: 600;
+    text-align: left;
+    background: #F5F4F0;
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 1.5rem; flex-direction: column; gap: 1rem; }
+    .progress-bar { padding: 1rem 1.5rem; }
+    .section { padding: 1.5rem; }
+    .field-grid { grid-template-columns: 1fr; }
+    .field-full { grid-column: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <p style="font-size:0.9rem; color:#5F5E5A;">Mengirim form…</p>
+</div>
+
+<div class="page-wrap">
+  <div class="header">
+    <div class="header-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="6" fill="#1B3A5C"/>
+        <path d="M8 10h16M8 16h10M8 22h12" stroke="#4DA3E8" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="23" cy="22" r="4" fill="#5CC896"/>
+        <path d="M21 22l1.5 1.5L25 20.5" stroke="#1B3A5C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Form Layanan Jasa Rekrutmen</h1>
+      <p>PT Solutiva Consulting Indonesia &nbsp;·&nbsp; sercin.solutiva@gmail.com &nbsp;·&nbsp; 081385718751</p>
+    </div>
+  </div>
+
+  <div class="progress-bar" id="progressBar">
+    <div class="step-pill active" id="pill1"></div>
+    <div class="step-pill" id="pill2"></div>
+    <div class="step-pill" id="pill3"></div>
+    <div class="step-pill" id="pill4"></div>
+    <span class="step-label" id="stepLabel">Langkah 1 dari 4</span>
+  </div>
+
+  <div class="form-body">
+    <form id="sercin-form">
+      <!-- Hidden honeypot untuk spam protection -->
+      <input type="text" name="_gotcha" style="display:none">
+      <!-- Formspree redirect setelah submit -->
+      <input type="hidden" name="_next" value="">
+      <input type="hidden" name="_subject" value="Form Rekrutmen Baru — Solutiva Consulting">
+      <input type="hidden" name="_replyto" id="replyto_field" value="">
+
+      <!-- SECTION 1: Profil Perusahaan -->
+      <div class="section" data-section="1">
+        <div class="section-header">
+          <div class="section-num">1</div>
+          <div class="section-title">Profil Perusahaan</div>
+        </div>
+        <div class="field-grid">
+          <div class="field field-full">
+            <label>Nama Perusahaan <span class="req">*</span></label>
+            <input type="text" name="nama_perusahaan" placeholder="PT / CV / UD …" required>
+          </div>
+          <div class="field field-full">
+            <label>Alamat Lengkap <span class="req">*</span></label>
+            <input type="text" name="alamat" placeholder="Jl. …, Kota, Provinsi" required>
+          </div>
+          <div class="field">
+            <label>Nomor Telepon <span class="req">*</span></label>
+            <input type="tel" name="nomor_telp" placeholder="021-…" required>
+          </div>
+          <div class="field">
+            <label>Website</label>
+            <input type="text" name="website" placeholder="https://… (opsional)">
+          </div>
+          <div class="field">
+            <label>Bidang Industri <span class="req">*</span></label>
+            <select name="bidang_industri" required>
+              <option value="">— Pilih —</option>
+              <option>Manufaktur / Produksi</option>
+              <option>Teknologi / IT</option>
+              <option>Keuangan / Perbankan</option>
+              <option>FMCG / Retail</option>
+              <option>Konstruksi / Properti</option>
+              <option>Kesehatan / Farmasi</option>
+              <option>Logistik / Transportasi</option>
+              <option>Pendidikan</option>
+              <option>Konsultasi / Jasa Profesional</option>
+              <option>Pertambangan / Energi</option>
+              <option>Media / Kreatif</option>
+              <option>Lainnya</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>No. NPWP</label>
+            <input type="text" name="npwp" placeholder="XX.XXX.XXX.X-XXX.XXX">
+          </div>
+          <div class="field field-full">
+            <label>Profil Singkat Perusahaan <span class="req">*</span></label>
+            <textarea name="profil_perusahaan" rows="3" placeholder="Deskripsi singkat mengenai perusahaan, bidang usaha, dan skala bisnis…" required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: Contact Person -->
+      <div class="section" data-section="2">
+        <div class="section-header">
+          <div class="section-num">2</div>
+          <div class="section-title">Perwakilan Perusahaan (Contact Person)</div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Nama <span class="req">*</span></label>
+            <input type="text" name="cp_nama" placeholder="Nama lengkap" required>
+          </div>
+          <div class="field">
+            <label>Jabatan / Posisi <span class="req">*</span></label>
+            <input type="text" name="cp_jabatan" placeholder="HRD Manager, Director, …" required>
+          </div>
+          <div class="field">
+            <label>Nomor Telp / HP <span class="req">*</span></label>
+            <input type="tel" name="cp_telp" placeholder="08XX-XXXX-XXXX" required>
+          </div>
+          <div class="field">
+            <label>E-mail <span class="req">*</span></label>
+            <input type="email" name="cp_email" placeholder="nama@perusahaan.com" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Kualifikasi Kandidat -->
+      <div class="section" data-section="3">
+        <div class="section-header">
+          <div class="section-num">3</div>
+          <div class="section-title">Kualifikasi Kandidat yang Dicari</div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Nama Jabatan / Posisi <span class="req">*</span></label>
+            <input type="text" name="posisi" placeholder="Sales Manager, Engineer, …" required>
+          </div>
+          <div class="field">
+            <label>Level <span class="req">*</span></label>
+            <div class="radio-group">
+              <input type="radio" name="level" id="l1" value="Staff" required>
+              <label for="l1">Staff</label>
+              <input type="radio" name="level" id="l2" value="Non-Staff">
+              <label for="l2">Non-Staff</label>
+              <input type="radio" name="level" id="l3" value="Supervisor">
+              <label for="l3">Supervisor</label>
+              <input type="radio" name="level" id="l4" value="Manager">
+              <label for="l4">Manager</label>
+            </div>
+          </div>
+          <div class="field field-full">
+            <label>Deskripsi Jabatan <span class="req">*</span></label>
+            <textarea name="deskripsi_jabatan" rows="4" placeholder="Tanggung jawab utama, tugas-tugas, dan ekspektasi dari posisi ini…" required></textarea>
+          </div>
+          <div class="field">
+            <label>Jumlah Kandidat Dibutuhkan <span class="req">*</span></label>
+            <input type="number" name="jumlah_kandidat" placeholder="1" min="1" required>
+          </div>
+          <div class="field">
+            <label>Jenis Kelamin</label>
+            <div class="radio-group">
+              <input type="radio" name="jenis_kelamin" id="jk0" value="Tidak Dipersyaratkan" checked>
+              <label for="jk0">Tidak Dipersyaratkan</label>
+              <input type="radio" name="jenis_kelamin" id="jk1" value="Laki-laki">
+              <label for="jk1">Laki-laki</label>
+              <input type="radio" name="jenis_kelamin" id="jk2" value="Perempuan">
+              <label for="jk2">Perempuan</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Etnis / Suku</label>
+            <input type="text" name="etnis" placeholder="Tidak dipersyaratkan / sebutkan">
+          </div>
+          <div class="field">
+            <label>Rentang Usia</label>
+            <input type="text" name="rentang_usia" placeholder="cth: 25–35 tahun">
+          </div>
+          <div class="field">
+            <label>Kualifikasi Pendidikan <span class="req">*</span></label>
+            <select name="pendidikan" required>
+              <option value="">— Pilih minimum —</option>
+              <option>SMA / SMK</option>
+              <option>D1 / D2 / D3</option>
+              <option>S1 (Sarjana)</option>
+              <option>S2 (Magister)</option>
+              <option>S3 (Doktor)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Lama Pengalaman Kerja</label>
+            <input type="text" name="pengalaman" placeholder="cth: Min. 2 tahun di bidang…">
+          </div>
+          <div class="field field-full">
+            <label>Kualifikasi Bahasa</label>
+            <textarea name="kualifikasi_bahasa" rows="2" placeholder="cth: Bahasa Inggris = Aktif, Bahasa Mandarin = Pasif"></textarea>
+          </div>
+          <div class="field">
+            <label>Lokasi Penempatan <span class="req">*</span></label>
+            <input type="text" name="lokasi_penempatan" placeholder="Kota / Site / Area" required>
+          </div>
+          <div class="field">
+            <label>Hari Kerja</label>
+            <input type="text" name="hari_kerja" placeholder="cth: Senin–Jumat / 6 hari">
+          </div>
+          <div class="field">
+            <label>Waktu Kerja / Sistem Kerja</label>
+            <div class="radio-group">
+              <input type="radio" name="sistem_kerja" id="wk1" value="WFO" checked>
+              <label for="wk1">WFO</label>
+              <input type="radio" name="sistem_kerja" id="wk2" value="WFH">
+              <label for="wk2">WFH</label>
+              <input type="radio" name="sistem_kerja" id="wk3" value="WFA (Hybrid)">
+              <label for="wk3">WFA / Hybrid</label>
+            </div>
+          </div>
+          <div class="field field-full">
+            <label>Nilai / Budaya Kerja yang Harus Dimiliki Kandidat</label>
+            <textarea name="nilai_budaya" rows="2" placeholder="cth: Integritas, kerja keras, berorientasi hasil…"></textarea>
+          </div>
+          <div class="field field-full">
+            <label>Catatan Khusus</label>
+            <textarea name="catatan_khusus" rows="2" placeholder="Jika ada persyaratan tambahan atau catatan penting…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4: Kompensasi & Fasilitas -->
+      <div class="section" data-section="4">
+        <div class="section-header">
+          <div class="section-num">4</div>
+          <div class="section-title">Kompensasi &amp; Fasilitas</div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Gaji yang Ditawarkan <span class="req">*</span></label>
+            <div class="salary-wrap">
+              <span class="salary-prefix">Rp</span>
+              <input type="text" name="gaji" placeholder="0" required oninput="formatRupiah(this)">
+            </div>
+            <div class="salary-suffix">
+              <div class="radio-group">
+                <input type="radio" name="gaji_type" id="gn" value="Net" checked>
+                <label for="gn">Net</label>
+                <input type="radio" name="gaji_type" id="gg" value="Gross">
+                <label for="gg">Gross</label>
+              </div>
+              <span style="font-size:0.78rem; color:#888780; align-self:center;">per bulan</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Besar Benefit Lainnya</label>
+            <div class="salary-wrap">
+              <span class="salary-prefix">Rp</span>
+              <input type="text" name="benefit" placeholder="0" oninput="formatRupiah(this)">
+            </div>
+            <div class="salary-suffix">
+              <div class="radio-group">
+                <input type="radio" name="benefit_type" id="bn" value="Net" checked>
+                <label for="bn">Net</label>
+                <input type="radio" name="benefit_type" id="bg" value="Gross">
+                <label for="bg">Gross</label>
+              </div>
+              <span style="font-size:0.78rem; color:#888780; align-self:center;">per bulan</span>
+            </div>
+          </div>
+          <div class="field field-full">
+            <label>Tunjangan Lainnya</label>
+            <input type="text" name="tunjangan" placeholder="cth: Tunjangan makan, transport, komunikasi…">
+          </div>
+          <div class="field">
+            <label>Ketersediaan Mess / Penginapan</label>
+            <div class="radio-group">
+              <input type="radio" name="mess" id="my" value="Ya">
+              <label for="my">Ya</label>
+              <input type="radio" name="mess" id="mn" value="Tidak" checked>
+              <label for="mn">Tidak</label>
+            </div>
+          </div>
+          <div class="field field-full">
+            <label>Benefit Lainnya</label>
+            <div class="checkbox-group">
+              <input type="checkbox" name="benefit_check" id="bc1" value="BPJS Kesehatan">
+              <label for="bc1">BPJS Kesehatan</label>
+              <input type="checkbox" name="benefit_check" id="bc2" value="BPJS Ketenagakerjaan">
+              <label for="bc2">BPJS Ketenagakerjaan</label>
+              <input type="checkbox" name="benefit_check" id="bc3" value="Kendaraan Operasional">
+              <label for="bc3">Kendaraan Operasional</label>
+              <input type="checkbox" name="benefit_check" id="bc4" value="Asuransi Swasta">
+              <label for="bc4">Asuransi Swasta</label>
+              <input type="checkbox" name="benefit_check" id="bc5" value="Bonus Tahunan">
+              <label for="bc5">Bonus Tahunan</label>
+            </div>
+            <input type="text" name="benefit_lainnya" placeholder="Benefit lain (jika ada)…" style="margin-top:0.5rem">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 5: Paket Layanan -->
+      <div class="section" data-section="5">
+        <div class="section-header">
+          <div class="section-num">5</div>
+          <div class="section-title">Pilihan Paket &amp; Garansi</div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label>Paket Layanan <span class="req">*</span></label>
+            <div class="radio-group">
+              <input type="radio" name="paket" id="pn" value="Paket Normal (dengan Psikotes)" required>
+              <label for="pn">Paket Normal (dengan Psikotes)</label>
+              <input type="radio" name="paket" id="ph" value="Paket Hemat (tanpa Psikotes)">
+              <label for="ph">Paket Hemat (tanpa Psikotes &amp; tanpa Garansi)</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Opsi Garansi <span class="req" id="garansiReq">*</span></label>
+            <div class="radio-group">
+              <input type="radio" name="garansi" id="g1" value="Garansi 1 Bulan" required>
+              <label for="g1">Garansi 1 Bulan</label>
+              <input type="radio" name="garansi" id="g3" value="Garansi 3 Bulan">
+              <label for="g3">Garansi 3 Bulan</label>
+            </div>
+            <div id="garansiNote" style="display:none; margin-top:0.4rem; font-size:0.78rem; color:#888780;">Paket Hemat tidak mendapatkan garansi.
+            </div>
+          </div>
+          <div class="field field-full">
+            <div class="terms-box" style="background:#EFF6FF; border-color:#B5D4F4;">
+              <strong style="color:#185FA5;">Estimasi Biaya Rekrutmen</strong><br>
+              <span style="font-size:0.78rem; color:#5F5E5A;">Berdasarkan level dan paket yang dipilih, biaya dihitung dari gaji bulanan kotor kandidat terpilih.</span>
+              <div id="biayaEstimasi" style="margin-top:0.75rem; font-size:0.85rem; color:#1B3A5C; font-weight:600;">— Pilih level, paket, dan garansi untuk melihat estimasi —</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 6: SPK & Persetujuan -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-num" style="background:#D85A30;">6</div>
+          <div class="section-title" style="color:#D85A30;">Surat Perjanjian Kerja Sama (SPK)</div>
+        </div>
+
+        <p style="font-size:0.85rem; color:#444441; margin-bottom:1rem; line-height:1.6;">
+          Sebelum mengirimkan formulir ini, Pihak Pertama <strong>wajib membaca</strong> Surat Perjanjian Kerja Sama (SPK) Sercin secara lengkap. Pengiriman formulir ini dianggap sebagai pernyataan bahwa Pihak Pertama telah membaca, memahami, dan menyetujui seluruh isi SPK.
+        </p>
+
+        <!-- SPK Accordion -->
+        <div class="spk-wrap" id="spkWrap">
+          <button type="button" class="spk-toggle" id="spkToggle" onclick="toggleSPK()">
+            📄 Baca Surat Perjanjian Kerja Sama (SPK) Sercin — klik untuk membuka
+          </button>
+          <div class="spk-body" id="spkBody">
+
+            <div class="spk-section">
+              <div class="spk-title">Pasal 1 — Proses Rekrutmen Karyawan</div>
+              <ol class="spk-list">
+                <li>Rekrutmen merupakan kegiatan memperoleh calon karyawan melalui proses identifikasi, <em>sourcing</em>, seleksi, hingga finalisasi.</li>
+                <li>Pihak Pertama wajib mengisi formulir kebutuhan secara lengkap disertai tanda tangan penanggung jawab dan cap perusahaan, lalu mengirimkannya ke <strong>sercin.solutiva@gmail.com</strong> atau <strong>081385718751</strong> (WhatsApp).</li>
+                <li>Revisi kualifikasi hanya diperbolehkan <strong>1 (satu) kali</strong>, maksimal <strong>5 hari kalender</strong> sejak formulir dikirimkan. Setelah batas waktu tersebut, proses mengacu pada kualifikasi awal dan tidak dapat diubah.</li>
+                <li>Setelah formulir diterima, Pihak Kedua akan memberikan SPK yang harus ditandatangani, diberi cap perusahaan, dan dibubuhi materai oleh Pihak Pertama.</li>
+                <li>SPK yang telah ditandatangani dikirimkan kembali ke Pihak Kedua. Pihak Kedua kemudian menerbitkan invoice Down Payment (DP) yang wajib segera dibayar.</li>
+                <li>Proses pencarian kandidat dimulai setelah bukti pembayaran DP diterima.</li>
+                <li>Proses rekrutmen hingga finalisasi dilaksanakan maksimal <strong>30 hari kalender</strong>. Pihak Kedua akan memberi informasi jika ada posisi yang membutuhkan waktu lebih lama.</li>
+                <li>Laporan hasil psikologis kandidat yang lolos seleksi dikirimkan dalam kurun waktu minimal <strong>14 hari</strong>, bergantung posisi dan penempatan.</li>
+                <li>Tahapan yang menjadi tanggung jawab Pihak Kedua: (i) Screening; (ii) Psikotes (khusus Paket Normal); (iii) Interview; (iv) Penerbitan Offering Letter. Tahapan tambahan di luar ini memerlukan kesepakatan biaya dan timeline tertulis.</li>
+                <li>Pada tahap <em>interview user</em>, seluruh pihak pengambil keputusan <strong>wajib hadir</strong>.</li>
+                <li>Jika pengambil keputusan tidak hadir dalam <em>interview user</em> dan terjadi ketidaksesuaian, hal tersebut tidak menjadi tanggung jawab Pihak Kedua dan tidak dapat dijadikan dasar pembatalan pembayaran atau klaim garansi.</li>
+                <li>Format laporan menyesuaikan kualifikasi posisi yang dibutuhkan.</li>
+                <li>Pihak Kedua memberikan laporan psikologi sebanyak <strong>3× lipat</strong> jumlah kandidat yang dibutuhkan (khusus Paket Normal).</li>
+                <li>Pihak Pertama melakukan seleksi tahap selanjutnya dan memilih kandidat yang sesuai.</li>
+                <li>Jika kandidat belum sesuai, Pihak Kedua akan memberikan kandidat pengganti maksimal <strong>2 kali</strong>.</li>
+                <li>Setelah kandidat dipilih, Pihak Pertama wajib menandatangani kontrak dengan kandidat maksimal <strong>5 hari kerja</strong> setelah dinyatakan lulus.</li>
+                <li>Jika dalam 30 hari Pihak Kedua telah mengirimkan minimal 3× kandidat namun Pihak Pertama tidak merespons atau tidak dapat dihubungi, maka <strong>DP hangus</strong> dan tidak dapat diminta kembali.</li>
+                <li>Pihak Pertama wajib mematuhi seluruh mekanisme dan SOP dalam SPK ini. Jika melanggar, Pihak Kedua berhak menghentikan proses rekrutmen tanpa kewajiban mengembalikan pembayaran.</li>
+              </ol>
+            </div>
+
+            <div class="spk-section">
+              <div class="spk-title">Pasal 2 — Pembayaran</div>
+              <div style="overflow-x:auto; margin-bottom:1rem;">
+                <table class="spk-table">
+                  <thead>
+                    <tr><th rowspan="2">Level</th><th colspan="2">Paket Normal (dengan Psikotes)</th><th rowspan="2">Paket Hemat<br>(Tanpa Psikotes &amp; Tanpa Garansi)</th></tr>
+                    <tr><th>Garansi 1 Bln</th><th>Garansi 3 Bln</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Staff</td><td>1× gaji</td><td>1,3× gaji</td><td>0,6× gaji</td></tr>
+                    <tr><td>Non-Staff</td><td>1× gaji</td><td>1,3× gaji</td><td>0,6× gaji</td></tr>
+                    <tr><td>Supervisor</td><td>1,3× gaji</td><td>1,5× gaji</td><td>0,6× gaji</td></tr>
+                    <tr><td>Manager</td><td>1,5× gaji</td><td>1,8× gaji</td><td>0,6× gaji</td></tr>
+                    <tr><td>Top Management</td><td>2× gaji</td><td>3× gaji</td><td>0,6× gaji</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <ol class="spk-list">
+                <li>DP sebesar <strong>30%</strong> dari total biaya rekrutmen wajib dibayar sebelum pencarian kandidat dimulai.</li>
+                <li>Setelah kandidat terpilih dinyatakan cocok, Pihak Pertama wajib membayar <strong>70%</strong> sisa biaya sebelum penandatanganan offering letter.</li>
+                <li>Sisa pembayaran harus dilunasi maksimal <strong>14 hari kalender</strong> setelah invoice diterima.</li>
+                <li>Jika Pihak Pertama memesan lebih dari 1 kandidat dan salah satu sudah diterima, pembayaran untuk kandidat tersebut wajib dilakukan tanpa menunggu kandidat lain.</li>
+                <li>Pembayaran via transfer ke: <strong>PT Solutiva Consulting Indonesia</strong> — Bank Mandiri cab. Universitas Yarsi — No. Rek. <strong>123.000.191219-7</strong></li>
+                <li>Setiap invoice dipotong <strong>PPh 23 sebesar 2%</strong> oleh Pihak Pertama, dan bukti potong wajib diberikan ke Pihak Kedua.</li>
+              </ol>
+            </div>
+
+            <div class="spk-section">
+              <div class="spk-title">Pasal 3 — Pembatalan &amp; Garansi</div>
+              <ol class="spk-list">
+                <li>Jika Pihak Pertama menghentikan proses rekrutmen yang sudah berjalan, <strong>DP tidak dapat dikembalikan</strong>.</li>
+                <li>Jika Pihak Kedua telah mengirimkan kandidat yang sesuai kualifikasi namun Pihak Pertama ingin menghentikan proses, dikenakan penalti <strong>50% dari total biaya</strong>.</li>
+                <li>Jika dalam jangka waktu yang disepakati Pihak Kedua tidak mengirimkan kandidat sama sekali, Pihak Kedua dapat mengembalikan maksimal <strong>100% dari DP</strong>.</li>
+                <li>Garansi hanya berlaku untuk <strong>Paket Normal</strong>. <strong>Paket Hemat tidak mendapatkan garansi.</strong></li>
+                <li>Garansi berupa pergantian kandidat 1 kali di posisi yang sama, atau <strong>refund 50%</strong> dari total biaya yang dibayarkan.</li>
+                <li>Garansi berlaku sesuai opsi yang dipilih: <strong>1 bulan</strong> atau <strong>3 bulan</strong> kalender sejak kandidat dinyatakan diterima, dengan syarat pembayaran lunas dan disertai surat putus kontrak resmi.</li>
+                <li>Jika Pihak Pertama merekrut kandidat dari Pihak Kedua tanpa sepengetahuan Pihak Kedua, dikenakan penalti <strong>100% dari total biaya</strong>.</li>
+              </ol>
+            </div>
+
+            <div class="spk-section">
+              <div class="spk-title">Pasal 4–6 — Penyelesaian, Korespondensi &amp; Jangka Waktu</div>
+              <ol class="spk-list">
+                <li>Permasalahan diselesaikan secara musyawarah kekeluargaan antara kedua belah pihak.</li>
+                <li>Korespondensi: <strong>081385718751</strong> (WhatsApp) &nbsp;|&nbsp; <strong>sercin.solutiva@gmail.com</strong></li>
+                <li>Perjanjian berakhir jika proses rekrutmen selesai atau kedua belah pihak sepakat menghentikan proses.</li>
+              </ol>
+            </div>
+
+            <div style="text-align:center; margin-top:1rem;">
+              <button type="button" onclick="markSPKRead()" id="btnSPKRead" style="background:#1B3A5C; color:white; border:none; padding:0.6rem 1.5rem; border-radius:6px; font-size:0.85rem; font-weight:600; cursor:pointer;">
+                ✓ Saya sudah membaca seluruh SPK
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Checkbox persetujuan — muncul setelah baca SPK -->
+        <div id="agreeSection" style="display:none; margin-top:1.25rem;">
+          <div class="agree-row">
+            <input type="checkbox" id="agree" required>
+            <label for="agree">Saya menyatakan bahwa informasi yang diisi adalah <strong>benar dan lengkap</strong>, serta telah membaca, memahami, dan <strong>menyetujui seluruh isi Surat Perjanjian Kerja Sama (SPK)</strong> Sercin by PT Solutiva Consulting Indonesia.</label>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Kirim Form Rekrutmen →
+          </button>
+          <p class="footer-note">
+            Hasil form akan dikirim ke <strong>sercin.solutiva@gmail.com</strong> dan dicatat otomatis di Google Sheets.<br>
+            Pertanyaan? Hubungi kami di <strong>081385718751</strong> (WhatsApp)
+          </p>
+        </div>
+      </div>
+    </form>
+
+    <!-- Success screen -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <path d="M6 16l7 7L26 9" stroke="#3B6D11" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>Form Berhasil Dikirim!</h2>
+      <p>Terima kasih. Tim Solutiva Consulting Indonesia akan menghubungi Anda<br>dalam <strong>1×24 jam</strong> hari kerja.</p>
+      <p style="margin-top:1rem; font-size:0.8rem;">Scan &amp; kirim juga form yang ditandatangani ke <a href="mailto:halo@sercin.co.id" style="color:#4DA3E8;">halo@sercin.co.id</a></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── SPK Toggle ────────────────────────────────────────────────────
+  function toggleSPK() {
+    const body = document.getElementById('spkBody');
+    const btn = document.getElementById('spkToggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open');
+    btn.classList.toggle('open');
+    btn.textContent = isOpen
+      ? '📄 Baca Surat Perjanjian Kerja Sama (SPK) Sercin — klik untuk membuka'
+      : '📄 Tutup SPK';
+  }
+
+  function markSPKRead() {
+    document.getElementById('btnSPKRead').textContent = '✓ SPK sudah dibaca';
+    document.getElementById('btnSPKRead').style.background = '#3B6D11';
+    document.getElementById('btnSPKRead').disabled = true;
+    document.getElementById('agreeSection').style.display = 'block';
+    document.getElementById('agreeSection').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  // ── Estimasi Biaya ─────────────────────────────────────────────────
+  const biayaMatrix = {
+    'Staff': { 'Paket Normal (dengan Psikotes)': { 'Garansi 1 Bulan': 1.0, 'Garansi 3 Bulan': 1.3 } },
+    'Non-Staff': { 'Paket Normal (dengan Psikotes)': { 'Garansi 1 Bulan': 1.0, 'Garansi 3 Bulan': 1.3 } },
+    'Supervisor': { 'Paket Normal (dengan Psikotes)': { 'Garansi 1 Bulan': 1.3, 'Garansi 3 Bulan': 1.5 } },
+    'Manager': { 'Paket Normal (dengan Psikotes)': { 'Garansi 1 Bulan': 1.5, 'Garansi 3 Bulan': 1.8 } },
+    'Top Management': { 'Paket Normal (dengan Psikotes)': { 'Garansi 1 Bulan': 2.0, 'Garansi 3 Bulan': 3.0 } }
+  };
+  const PAKET_HEMAT = 'Paket Hemat (tanpa Psikotes)';
+  const MULTIPLIER_HEMAT = 0.6;
+  function getMultiplier(level, paket, garansi) {
+    if (paket === PAKET_HEMAT) return MULTIPLIER_HEMAT;
+    return biayaMatrix[level]?.[paket]?.[garansi];
+  }
+
+  // Paket Hemat tidak ada garansi: nonaktifkan pilihan garansi
+  function toggleGaransi() {
+    const hemat = document.querySelector('input[name="paket"]:checked')?.value === PAKET_HEMAT;
+    document.querySelectorAll('input[name="garansi"]').forEach(r => {
+      r.disabled = hemat;
+      r.required = !hemat;
+      if (hemat) r.checked = false;
+    });
+    document.getElementById('garansiNote').style.display = hemat ? 'block' : 'none';
+    document.getElementById('garansiReq').style.display = hemat ? 'none' : 'inline';
+  }
+  document.addEventListener('change', e => { if (e.target.name === 'paket') toggleGaransi(); });
+
+  function updateEstimasi() {
+    const level = document.querySelector('input[name="level"]:checked')?.value;
+    const paket = document.querySelector('input[name="paket"]:checked')?.value;
+    const garansi = document.querySelector('input[name="garansi"]:checked')?.value;
+    const gajiRaw = document.querySelector('input[name="gaji"]')?.value.replace(/\./g,'').replace(/,/g,'') || '0';
+    const gaji = parseInt(gajiRaw) || 0;
+    const jumlah = parseInt(document.querySelector('input[name="jumlah_kandidat"]')?.value) || 1;
+    const el = document.getElementById('biayaEstimasi');
+    const isHemat = paket === PAKET_HEMAT;
+    if (!level || !paket || (!isHemat && !garansi)) { el.textContent = '— Pilih level, paket, dan garansi untuk melihat estimasi —'; return; }
+    const multiplier = getMultiplier(level, paket, garansi);
+    if (!multiplier) { el.textContent = '— Pilih level, paket, dan garansi untuk melihat estimasi —'; return; }
+    const totalPerOrang = gaji * multiplier;
+    const total = totalPerOrang * jumlah;
+    const dp = total * 0.3;
+    el.innerHTML = gaji > 0
+      ? `Multiplier: <strong>${multiplier}× gaji bulanan</strong> × <strong>${jumlah} kandidat</strong><br>Per kandidat: <strong>Rp ${Math.round(totalPerOrang).toLocaleString('id-ID')}</strong><br>Total biaya (${jumlah} orang): <strong>Rp ${Math.round(total).toLocaleString('id-ID')}</strong><br>DP 30%: <strong>Rp ${Math.round(dp).toLocaleString('id-ID')}</strong> &nbsp;|&nbsp; Sisa 70%: <strong>Rp ${Math.round(total - dp).toLocaleString('id-ID')}</strong>`
+      : `Multiplier: <strong>${multiplier}× gaji bulanan kotor × ${jumlah} kandidat</strong><br><span style="font-size:0.78rem; color:#888780;">Isi gaji yang ditawarkan di atas untuk melihat estimasi nominal.</span>`;
+  }
+
+  document.addEventListener('change', updateEstimasi);
+  document.addEventListener('input', updateEstimasi);
+
+
+  function formatRupiah(el) {
+    let raw = el.value.replace(/\D/g, '');
+    el.value = raw ? parseInt(raw, 10).toLocaleString('id-ID') : '';
+  }
+
+  // ── Progress bar update ────────────────────────────────────────────
+  function updateProgress() {
+    const sections = document.querySelectorAll('[data-section]');
+    let maxDone = 0;
+    sections.forEach(sec => {
+      const inputs = sec.querySelectorAll('input[required], select[required], textarea[required]');
+      let allFilled = true;
+      inputs.forEach(inp => { if (!inp.value.trim()) allFilled = false; });
+      if (allFilled && inputs.length > 0) maxDone = Math.max(maxDone, parseInt(sec.dataset.section));
+    });
+    for (let i = 1; i <= 4; i++) {
+      const pill = document.getElementById('pill' + i);
+      pill.classList.remove('active', 'done');
+      if (i <= maxDone) pill.classList.add('done');
+      else if (i === maxDone + 1) pill.classList.add('active');
+    }
+    const labels = ['Profil Perusahaan', 'Contact Person', 'Kualifikasi Kandidat', 'Kompensasi & Fasilitas'];
+    const step = Math.min(maxDone + 1, 4);
+    document.getElementById('stepLabel').textContent = labels[step - 1];
+  }
+
+  document.getElementById('sercin-form').addEventListener('input', updateProgress);
+
+  // ── Kumpulkan checkbox benefits ────────────────────────────────────
+  function collectBenefits() {
+    const checked = [...document.querySelectorAll('input[name="benefit_check"]:checked')];
+    return checked.map(c => c.value).join(', ');
+  }
+
+  // ── Submit ke Google Apps Script ─────────────────────────────────
+  document.getElementById('sercin-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const fd = new FormData(this);
+    fd.set('benefit_check', collectBenefits());
+
+    const data = {};
+    fd.forEach((v, k) => { data[k] = v; });
+    data.submitted_at = new Date().toLocaleString('id-ID', {timeZone:'Asia/Jakarta'});
+
+    // Tambahan data kalkulasi biaya
+    const level = document.querySelector('input[name="level"]:checked')?.value || '-';
+    const paket = document.querySelector('input[name="paket"]:checked')?.value || '-';
+    const garansi = paket === PAKET_HEMAT ? 'Tanpa Garansi' : (document.querySelector('input[name="garansi"]:checked')?.value || '-');
+    const gajiRaw = parseInt((data.gaji || '0').replace(/\./g,'').replace(/,/g,'')) || 0;
+    const jumlah = parseInt(data.jumlah_kandidat) || 1;
+    const multiplier = getMultiplier(level, paket, garansi) || 0;
+    const totalPerOrang = gajiRaw * multiplier;
+    const totalBiaya = totalPerOrang * jumlah;
+    const dp30 = totalBiaya * 0.3;
+    const sisa70 = totalBiaya * 0.7;
+
+    data.paket_layanan = paket;
+    data.opsi_garansi = garansi;
+    data.gaji_angka = 'Rp ' + gajiRaw.toLocaleString('id-ID') + ' (' + (data.gaji_type || '') + ')';
+    data.multiplier_biaya = multiplier + '× gaji bulanan';
+    data.biaya_per_kandidat = 'Rp ' + Math.round(totalPerOrang).toLocaleString('id-ID');
+    data.total_biaya = 'Rp ' + Math.round(totalBiaya).toLocaleString('id-ID') + ' (' + jumlah + ' kandidat)';
+    data.dp_30persen = 'Rp ' + Math.round(dp30).toLocaleString('id-ID');
+    data.sisa_70persen = 'Rp ' + Math.round(sisa70).toLocaleString('id-ID');
+    data.persetujuan_spk = 'DISETUJUI — ' + new Date().toLocaleString('id-ID', {timeZone:'Asia/Jakarta'});
+
+    const btn = document.getElementById('submitBtn');
+    const overlay = document.getElementById('loadingOverlay');
+    btn.disabled = true;
+    overlay.style.display = 'flex';
+
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz3pQteQqgenjkL41Ub7zgIbMAyNdl-w-5CDmJUmSwst7JDPYoCV2mpFYi7fubl5aCr/exec';
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(err) {
+      console.error('Error:', err);
+    }
+
+    overlay.style.display = 'none';
+    document.getElementById('sercin-form').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+    document.getElementById('progressBar').style.display = 'none';
+  });
+</script>
+</body>
+</html>
